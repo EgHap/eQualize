@@ -1,5 +1,5 @@
 # eQualize
-IW5 eQServers GSC Script
+Plutonium IW5 eQ Servers GSC Script
 
 
 https://team-equalize.eu/
