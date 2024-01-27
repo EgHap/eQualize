@@ -150,6 +150,7 @@ CodeCallback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeat
     if (isSniper(sWeapon))
     {
 		iDamage = 9999999;
+		self Suicide();
     }
 	else
 	{
