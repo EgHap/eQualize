@@ -19,7 +19,7 @@ Advertising()
 {
     shhhh = level createServerFontString( "Objective", 0.75 );
 	shhhh setPoint( "RIGHT", "RIGHT", 0, -120 );
-	shhhh setText("^5eQualize. ^7Sniping");
+	shhhh setText("^4eQualize. ^7Sniping");
 }
 
 OnPlayerConnected()
@@ -135,7 +135,7 @@ killstreakPlayer()
 	level endon("game_ended");
 	self.hudkillstreak = createFontString ("Objective", 0.75);
 	self.hudkillstreak setPoint ("TOPCENTER", "TOPCENTER", 0, 0);
-	self.hudkillstreak.label = &"^5 KILLSTREAK: ^7";
+	self.hudkillstreak.label = &"^4 KILLSTREAK: ^7";
 	
 	while(true)
 	{
