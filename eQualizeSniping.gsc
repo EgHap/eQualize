@@ -11,8 +11,8 @@ init()
 
     Advertising();
 
-    level.OriginalCallbackPlayerDamage = level.callbackPlayerDamage;
-    level.callbackPlayerDamage = ::CodeCallback_PlayerDamage;
+    level.callbackplayerdamagestub = level.callbackplayerdamage;
+    level.callbackplayerdamage = ::CodeCallback_PlayerDamage;
 }
 
 Advertising()
@@ -150,7 +150,6 @@ CodeCallback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeat
     if (isSniper(sWeapon))
     {
 		iDamage = 9999999;
-		self Suicide();
     }
 	else
 	{
@@ -187,6 +186,6 @@ CodeCallback_PlayerDamage( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeat
 				}
 			}
 		}
-        [[level.OriginalCallbackPlayerDamage]](eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset);
 	}
+	self [[level.callbackplayerdamagestub]]( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset );
 }
