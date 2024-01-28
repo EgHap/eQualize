@@ -134,7 +134,7 @@ killstreakPlayer()
 	self endon ("disconnect");
 	level endon("game_ended");
 	self.hudkillstreak = createFontString ("Objective", 0.75);
-	self.hudkillstreak setPoint ("TOPCENTER", "TOPCENTER", 0, 10);
+	self.hudkillstreak setPoint ("TOPCENTER", "TOPCENTER", 0, 0);
 	self.hudkillstreak.label = &"^4 KILLSTREAK: ^7";
 	
 	while(true)
