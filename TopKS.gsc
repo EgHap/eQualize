@@ -6,7 +6,6 @@ init()
 
 
     thread OnPlayerConnected();
-    thread DisplayHighestKD();
     
 	replaceFunc(maps\mp\gametypes\_gamelogic::waittillFinalKillcamDone, ::AfterKillcam);
 }
@@ -17,52 +16,33 @@ OnPlayerConnected()
     {
         level waittill("connected", player);
         player.pers["highKS"] = 0;
-        player.pers["KD"] = 0;
-
+        player.kd = 0;
+		player thread DisplayHighestKD();
     }
 }
 
 DisplayHighestKD()
 {
-
-    level.topkd = level createServerFontString("small", 1);
-    level.topkd setPoint("TOPRIGHT", "TOPRIGHT", 0, 10);
-
-    for(;;)
-    {
-        if(level.players.size > 0)
-        {
-            highestKDPlayer = GetPlayerWithHighestKD();
-            level.topkd setText("^5TOP KD: " + highestKDPlayer.Name + " - " + highestKDPlayer.pers["KD"]);
-        }
-        wait 0.05;
-    }
-}
-
-GetPlayerWithHighestKD()
-{
-
-        highestKDPlayer = level.players[0];
-
-        foreach (player in level.players)
-        {
-            if (player.pers["KD"] > highestKDPlayer.pers["KD"])
-            {
-                highestKDPlayer = player;
-            }
-        }
+	self endon("disconnect");
+    level endon("game_ended");
+	self.topkd = self createFontString("small", 1);
+    self.topkd setPoint("TOPRIGHT", "TOPRIGHT", 0, 10);
+    self.topkd.label = &"^4Your KD: ^7";
     
-    return highestKDPlayer;
-}
-UpdateTopKD()
-{
-    if(level.players.size > 0)
-    foreach (player in level.players)
+    while(true)
     {
-        kd = (player.deaths > 0) ? (player.kills / player.deaths) : player.kills;
-
-        player.pers["KD"] = kd;
+		if(level.players.size > 0 && isDefined(self.kd))
+		{			
+			self.topkd setValue(self.kd);
+		}
+        wait 0.5;
     }
+}
+
+UpdateKD()
+{
+    kd = (self.deaths > 0) ? (self.kills / self.deaths) : self.kills;
+	self.kd = kd;
 }
 
 AfterKillcam()
@@ -80,7 +60,8 @@ OnPlayerKilled(eInflictor, eAttacker, iDamage, sMeansOfDeath, sWeapon, vDir, sHi
     {
         eAttacker.pers["highKS"] = eAttacker.pers["cur_kill_streak"];
     }
-    UpdateTopKD();
+    eAttacker UpdateKD();
+    self UpdateKD();
 }
 
 DisplayPlayerSummary()
