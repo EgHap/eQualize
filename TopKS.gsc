@@ -26,7 +26,7 @@ DisplayHighestKD()
 {
 
     level.topkd = level createServerFontString("small", 1);
-    level.topkd setPoint("TOPRIGHT", "TOPRIGHT", 0, 0);
+    level.topkd setPoint("TOPRIGHT", "TOPRIGHT", 0, 10);
 
     for(;;)
     {
