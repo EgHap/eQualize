@@ -1,29 +1,24 @@
-init()
-{
-    print("deletebombs loaded");
-    deleteEntity("sd_bomb_pickup_trig");
-    deleteEntity("sd_bomb");
-    replacefunc(maps\mp\gametypes\sd::oncantuse, ::idiot);
-    SetDvar("waypointiconheight", 1);
-    SetDvar("waypointiconwidth", 1);
-}
+//by swifty
 
-
-idiot( player )
+main()
 {
-    player iPrintLnBold("stupid cunt go play");
-}
-
-deleteEntity(targetName)
-{
-    entityToDelete = getEnt(targetName, "targetname");
-    if (isDefined(entityToDelete))
+    printLn("sd_nobombs::main called.");
+    setDvarIfUninitialized( "sv_remove_bombsites", 0 );
+    if (getDvarInt("sv_remove_bombsites") && getDvar("g_gametype") == "sd") 
     {
-        entityToDelete delete();
-        print("Deleted " + targetName);
+        replacefunc(maps\mp\gametypes\_gameobjects::main, ::_gameobjects_main_custom);
     }
-    else
+}
+_gameobjects_main_custom(allowed)
+{
+	entitytypes = getentarray();
+    for(i = 0; i < entitytypes.size; i++)
     {
-        print("Error: " + targetName + " not found.");
+        if(isdefined(entitytypes[i].script_gameobjectname))
+        {
+            if (entitytypes[i].script_gameobjectname == "airdrop_pallet") continue;//carepackage collision dont wanna delete
+
+            entitytypes[i] delete();
+        }
     }
 }
